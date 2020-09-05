@@ -19,6 +19,6 @@ public class LandingPageActivityInstrumentedTest{
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
         Intent intent = LandingPageActivity.getIntent(appContext, 42);
         //default value is the value returned if specified name cannot be found
-        assertEquals(42, intent.getIntExtra("INTENT_EXTRA_VALUE", 2));
+        assertEquals(42, intent.getIntExtra("INTENT_EXTRA_VALUE", 0));
     }
 }
