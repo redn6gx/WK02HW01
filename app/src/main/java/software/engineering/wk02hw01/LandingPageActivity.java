@@ -1,5 +1,7 @@
 package software.engineering.wk02hw01;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -26,4 +28,14 @@ public class LandingPageActivity extends AppCompatActivity {
             }
         });
     }
+//    public static Intent getIntent(Context context){
+//        return new Intent(context, LandingPageActivity.class);
+//    }
+
+    public static Intent getIntent(Context context, int value){
+        Intent intent = new Intent(context, LandingPageActivity.class);
+        intent.putExtra("INTENT_EXTRA_VALUE", value);
+        return intent;
+    }
+
 }

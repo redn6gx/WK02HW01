@@ -48,32 +48,19 @@ public class MainActivity extends AppCompatActivity {
                 String name = username.getText().toString();
                 String pw = password.getText().toString();
 
-                //see if user exists by looking for username
-                boolean validPw = true; //bool variable to see if password was valid or not
-                for(int i=0; i<users.size(); i++){
-                    //found user
-                    if(users.get(i).getUsername().equals(name)){
-                        //check password for matching username
-                        if(users.get(i).getPassword().equals(pw)){
-                            //login successful
-                            MainActivity.username = username.getText().toString();
-                            //change to landing page
-//                            finish();
-                            Intent intent = new Intent(MainActivity.this, LandingPageActivity.class);
-                            startActivity(intent);
-                            finish();
-                            return;//need return here so remainder code does not run
-                        }else{
-                            validPw = false;
-                            if(!validPw) {
-                                password.setError("INVALID PASSWORD");
-                                break; //break out of for loop
-                            }
-                        }
-                    }
-                }
-                if(validPw){
+//                authentication(name, pw, username, password);
+                int x = authenticate(name, pw, users);
+                if(x == 1){
+                    MainActivity.username = username.getText().toString();
+//                    Intent intent = new Intent(MainActivity.this, LandingPageActivity.class);
+//                    Intent intent = LandingPageActivity.getIntent(getApplicationContext());
+                    Intent intent = LandingPageActivity.getIntent(getApplicationContext(), 42);
+                    startActivity(intent);
+                    finish();
+                }else if(x == 2){
                     username.setError("INVALID USERNAME");
+                }else if(x == 3){
+                    password.setError("INVALID PASSWORD");
                 }
             }
         });
@@ -95,4 +82,33 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    //1 = valid
+    //2 = username error
+    //3 = password error
+    public static int authenticate(String name, String pw, List<User> users){
+        for(int i=0; i<users.size(); i++){
+//            //found user
+            if(users.get(i).getUsername().equals(name)){
+                //check password for matching username
+                if(users.get(i).getPassword().equals(pw)){
+                    //login successful
+                    return 1;
+                }else{
+                    //invalid password
+                    return 3;
+                }
+            }
+        }
+        //no matching username
+        return 2;
+    }
+
+    public static boolean userExists(String name, List<User> users){
+        for(int i=0; i<users.size(); i++){
+            if(users.get(i).getUsername().equals(name)){
+                return true;
+            }
+        }
+        return false;
+    }
 }
